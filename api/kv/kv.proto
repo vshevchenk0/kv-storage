@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package kv;
+
+option go_package = "github.com/vshevchenk0/kv-storage/pkg/kv;kv";
+
+service KVService {
+  rpc Set(SetRequest) returns (EmptyResponse);
+  rpc Get(GetRequest) returns (GetResponse);
+  rpc Delete(DeleteRequest) returns (EmptyResponse);
+}
+
+message EmptyResponse {}
+
+message SetRequest {
+  string key = 1;
+  string value = 2;
+  // record ttl in seconds. 0 means record will be non-expiring
+  uint64 ttl = 3;
+  bool syncCommit = 4;
+}
+
+message GetRequest {
+  string key = 1;
+}
+
+message GetResponse {
+  string value = 1;
+}
+
+message DeleteRequest {
+  string key = 1;
+  bool syncCommit = 4;
+}
